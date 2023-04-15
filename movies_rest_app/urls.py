@@ -13,23 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from rest_framework import routers
-
 from django.urls import include, path
-
-import movies_rest_app
 from movies_rest_app import views
-from movies_rest_app.views_generic import *
-router = routers.DefaultRouter()
-router.register('api/imdb/movies', MovieViewSet, basename='movie')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # path('api/imdb/', include('movies_rest_app.urls'))
-    path('api/version', views.get_version)
+    path('movies/', views.get_movies),
+    path('actors/', views.get_actors),
+    path('movies/<int:movie_id>', views.get_movie),
+    path('movies/<int:movie_id>/actors', views.get_movie_actors),
+    path('movies/<int:movie_id>/oscars', views.get_movie_oscars),
+    path('oscars', views.get_oscar)
+    # path('test/', views.test),
 ]
-urlpatterns.extend(router.urls)
-router.register('api/imdb/oscars', OscarViewSet, basename='oscar')
-urlpatterns.extend(router.urls)
-print(urlpatterns)
